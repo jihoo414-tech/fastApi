@@ -15,9 +15,18 @@ def get_user(user_id: int):
         "message": f"user {user_id}"
     }
 
+@app.get("/products/search")
+def search_products(keyword: str | None = None, limit: int = 10):
+    return{
+        "keyword" : keyword,
+        "limit" : limit
+    }
+
+
 @app.get("/products/{product_id}")
 def get_product(product_id : int):
-    return {
+    return { 
         "product_id" : product_id,
         "name" : f"product-{product_id}"
     }
+
