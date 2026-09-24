@@ -1,32 +1,16 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
 
 
-@app.get("/")
-def hello():
-    return {"message": "hello"}
+class ProductCreateRequest(BaseModel):
+    name : str
+    price : int
 
-
-@app.get("/users/{user_id}")
-def get_user(user_id: int):
-    return {
-        "user_id": user_id,
-        "message": f"user {user_id}"
-    }
-
-@app.get("/products/search")
-def search_products(keyword: str | None = None, limit: int = 10):
+@app.post("/products")
+def create_product(request: ProductCreateRequest):
     return{
-        "keyword" : keyword,
-        "limit" : limit
+        "name": request.name,
+        "price": request.price
     }
-
-
-@app.get("/products/{product_id}")
-def get_product(product_id : int):
-    return { 
-        "product_id" : product_id,
-        "name" : f"product-{product_id}"
-    }
-
